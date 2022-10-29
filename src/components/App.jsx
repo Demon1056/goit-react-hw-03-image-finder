@@ -5,6 +5,7 @@ import { searchImages } from './Api';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Loadrer } from './Loader/Loader';
+import { Modal } from './Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -12,6 +13,7 @@ export class App extends Component {
     data: [],
     currentPage: 1,
     isLoading: false,
+    lageImg: '',
   };
   togleIsLoading = () =>
     this.setState({
@@ -28,7 +30,15 @@ export class App extends Component {
       };
     });
   };
-
+  onImageClick = e => {
+    const selectedImgObj = this.state.data.find(
+      item => item.id == e.currentTarget.id
+    );
+    const selectedImg = selectedImgObj.largeImageURL;
+    return this.setState({
+      lageImg: selectedImg,
+    });
+  };
   setFindValue = e => {
     e.preventDefault();
     this.setState(prevState => {
@@ -50,6 +60,16 @@ export class App extends Component {
       };
     });
   };
+  updateLageImage = () =>
+    this.setState({
+      lageImg: '',
+    });
+
+  closeModal = e => {
+    if (e.target === e.currentTarget) {
+      return this.updateLageImage();
+    }
+  };
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.findValue === this.state.findValue &&
@@ -67,11 +87,23 @@ export class App extends Component {
     return (
       <AppStyled>
         <Searchbar onSubmit={this.setFindValue}></Searchbar>
-        {this.state.findValue && <ImageGallery data={this.state.data} />}
+        {this.state.findValue && (
+          <ImageGallery
+            data={this.state.data}
+            onImageClick={this.onImageClick}
+          />
+        )}
         {this.state.findValue && !this.state.isLoading && (
           <Button addPage={this.onClickLoadMore} />
         )}
         {this.state.isLoading && <Loadrer />}
+        {this.state.lageImg && (
+          <Modal
+            img={this.state.lageImg}
+            closeModal={this.closeModal}
+            updateLageImage={this.updateLageImage}
+          />
+        )}
       </AppStyled>
     );
   }

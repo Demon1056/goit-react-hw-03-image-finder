@@ -5,12 +5,16 @@ import {
   SearchFormButtonLabel,
   SearchFormInput,
 } from './SearchbarStyled';
+import { AiOutlineSearch } from 'react-icons/ai';
+
 export const Searchbar = ({ onSubmit }) => {
   return (
     <Header>
       <SearchForm onSubmit={onSubmit}>
         <SearchFormButton type="submit">
-          <SearchFormButtonLabel>Search</SearchFormButtonLabel>
+          {' '}
+          <AiOutlineSearch color={'grey'} size={'20px'} />
+          <SearchFormButtonLabel></SearchFormButtonLabel>
         </SearchFormButton>
 
         <SearchFormInput
@@ -20,7 +24,7 @@ export const Searchbar = ({ onSubmit }) => {
           autoFocus
           placeholder="Search images and photos"
         />
-      </SearchForm>
+      </SearchForm>{' '}
     </Header>
   );
 };
