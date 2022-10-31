@@ -13,8 +13,7 @@ export class Modal extends Component {
     const { img, closeModal } = this.props;
     return (
       <BackDrop onClick={closeModal} onKeyDown={closeModal}>
-        // <ModalImg src={img} alt={img} />
-        //{' '}
+        <ModalImg src={img} alt={img} />
       </BackDrop>
     );
   }

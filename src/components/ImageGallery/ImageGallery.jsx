@@ -3,13 +3,13 @@ import { Galery } from './ImageGalleryStyled';
 export const ImageGallery = ({ data, onImageClick }) => {
   return (
     <Galery>
-      {data.map(img => {
+      {data.map(({ id, webformatURL, tags }) => {
         return (
           <ImageGalleryItem
-            id={img.id}
-            key={img.id}
-            url={img.webformatURL}
-            name={img.tags}
+            id={id}
+            key={id}
+            url={webformatURL}
+            name={tags}
             onImageClick={onImageClick}
           />
         );

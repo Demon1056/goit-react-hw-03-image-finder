@@ -15,6 +15,20 @@ export class App extends Component {
     isLoading: false,
     lageImg: '',
   };
+  setFindValue = e => {
+    e.preventDefault();
+    this.setState(prevState => {
+      if (prevState.findValue !== e.target.findValue.value)
+        return {
+          data: [],
+          findValue: e.target.findValue.value,
+          currentPage: 1,
+        };
+      else {
+        return { findValue: e.target.findValue.value };
+      }
+    });
+  };
   togleIsLoading = () =>
     this.setState({
       isLoading: !this.state.isLoading,
@@ -30,29 +44,6 @@ export class App extends Component {
       };
     });
   };
-  onImageClick = e => {
-    const selectedImgObj = this.state.data.find(
-      item => item.id == e.currentTarget.id
-    );
-    const selectedImg = selectedImgObj.largeImageURL;
-    return this.setState({
-      lageImg: selectedImg,
-    });
-  };
-  setFindValue = e => {
-    e.preventDefault();
-    this.setState(prevState => {
-      if (prevState.findValue !== e.target.findValue.value)
-        return {
-          data: [],
-          findValue: e.target.findValue.value,
-          currentPage: 1,
-        };
-      else {
-        return { findValue: e.target.findValue.value };
-      }
-    });
-  };
   onClickLoadMore = () => {
     return this.setState(prevState => {
       return {
@@ -64,7 +55,15 @@ export class App extends Component {
     this.setState({
       lageImg: '',
     });
-
+  onImageClick = e => {
+    const selectedImgObj = this.state.data.find(
+      ({ id }) => id === Number(e.currentTarget.id)
+    );
+    const selectedImg = selectedImgObj.largeImageURL;
+    return this.setState({
+      lageImg: selectedImg,
+    });
+  };
   closeModal = e => {
     if (e.target === e.currentTarget) {
       return this.updateLageImage();
@@ -83,23 +82,20 @@ export class App extends Component {
       this.togleIsLoading();
     }, 1000);
   }
+
   render() {
+    const { findValue, data, isLoading, lageImg } = this.state;
     return (
       <AppStyled>
         <Searchbar onSubmit={this.setFindValue}></Searchbar>
-        {this.state.findValue && (
-          <ImageGallery
-            data={this.state.data}
-            onImageClick={this.onImageClick}
-          />
+        {findValue && (
+          <ImageGallery data={data} onImageClick={this.onImageClick} />
         )}
-        {this.state.findValue && !this.state.isLoading && (
-          <Button addPage={this.onClickLoadMore} />
-        )}
-        {this.state.isLoading && <Loadrer />}
-        {this.state.lageImg && (
+        {findValue && !isLoading && <Button addPage={this.onClickLoadMore} />}
+        {isLoading && <Loadrer />}
+        {lageImg && (
           <Modal
-            img={this.state.lageImg}
+            img={lageImg}
             closeModal={this.closeModal}
             updateLageImage={this.updateLageImage}
           />
