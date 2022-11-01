@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { BackDrop, ModalImg } from './ModalStyled';
 
@@ -18,3 +19,7 @@ export class Modal extends Component {
     );
   }
 }
+Modal.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+  img: PropTypes.string.isRequired,
+};
