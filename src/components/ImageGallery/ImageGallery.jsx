@@ -4,7 +4,7 @@ import { Galery } from './ImageGalleryStyled';
 export const ImageGallery = ({ data, onImageClick }) => {
   return (
     <Galery>
-      {data.map(({ id, webformatURL, tags }) => {
+      {data.map(({ id, webformatURL, tags, largeImageURL }) => {
         return (
           <ImageGalleryItem
             id={id}
@@ -12,6 +12,7 @@ export const ImageGallery = ({ data, onImageClick }) => {
             url={webformatURL}
             name={tags}
             onImageClick={onImageClick}
+            modalURL={largeImageURL}
           />
         );
       })}
